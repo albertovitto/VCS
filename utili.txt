@@ -5,3 +5,7 @@ from source control: pull rebase
 mkdir .vscode
 gedit settings.json
 virtualenv --python python3 env
+CTRL SHIFT P select python interpreter
+alberto@alberto-VirtualBox:~/Desktop/VCS$ source /home/alberto/Desktop/VCS/env/bin/activate
+(env) alberto@alberto-VirtualBox:~/Desktop/VCS$ deactivate 
+exit O CTRL D to exit terminal
