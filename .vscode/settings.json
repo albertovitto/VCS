@@ -1,0 +1,11 @@
+{
+  "python.pythonPath": "backend/env/bin/python",
+  "editor.formatOnSave": true,
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pylintPath": "pylint",
+  "python.linting.pylintArgs": ["--load-plugins", "pylint_django"],
+  "python.linting.pylintEnabled": true,
+  "python.venvPath": "/home/alberto/Desktop/djreact 3 - Authenticate Users/djreact_3_auth_user/backend",
+  "python.linting.pycodestyleArgs": ["--ignore=E501"],
+  "python.formatting.provider": "black"
+}
