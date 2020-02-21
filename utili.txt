@@ -1,1 +1,7 @@
+(env) alberto@alberto-VirtualBox:~/Desktop/VCS$ git init
+(env) alberto@alberto-VirtualBox:~/Desktop/VCS$ git remote add origin https://github.com/albertovitto/VCS.git
+from source control: pull rebase
+
+mkdir .vscode
+gedit settings.json
 virtualenv --python python3 env
