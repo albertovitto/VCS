@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-img = cv.imread("2020-03-05/img.png")
+img = cv.imread("2020-03-05 intro numpy/img.png")
 width, height, channels = img.shape
 new = cv.convertScaleAbs(img, alpha=-11, beta=0)
 for x in range(0, width):
