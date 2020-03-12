@@ -1,0 +1,14 @@
+first to convert the matrix type of value to float32, 
+do de product and reconvert all (through rounding and clipping) to unit8?
+np.clip()
+
+all bins of all color planes need to sum up to 1
+
+I usually use something like: im = np.random.randint(0, 255, [3, 128, 128], dtype=np.uint8)
+L1 normalization consists of just dividing by the array sum
+To emulate an image
+
+rescale OR RESIZE (scikit image)
+
+https://scikit-image.org/docs/stable/api/skimage.data.html?highlight=astro#skimage.data.astronaut
+DO SWAP BEFORE

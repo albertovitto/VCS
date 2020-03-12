@@ -6,9 +6,11 @@ black==19.10b0
 bleach==3.1.1
 Click==7.0
 cycler==0.10.0
+Cython==0.29.15
 decorator==4.4.2
 defusedxml==0.6.0
 entrypoints==0.3
+imageio==2.8.0
 importlib-metadata==1.5.0
 ipykernel==5.1.4
 ipython==7.13.0
@@ -30,6 +32,7 @@ mccabe==0.6.1
 mistune==0.8.4
 nbconvert==5.6.1
 nbformat==5.0.4
+networkx==2.4
 notebook==6.0.3
 numpy==1.18.1
 opencv-python==4.2.0.32
@@ -50,10 +53,13 @@ pyparsing==2.4.6
 pyrsistent==0.15.7
 python-dateutil==2.8.1
 pytz==2019.3
+PyWavelets==1.1.1
 pyzmq==19.0.0
 qtconsole==4.7.1
 QtPy==1.9.0
 regex==2020.2.20
+scikit-image==0.16.2
+scipy==1.4.1
 Send2Trash==1.5.0
 six==1.14.0
 terminado==0.8.3
