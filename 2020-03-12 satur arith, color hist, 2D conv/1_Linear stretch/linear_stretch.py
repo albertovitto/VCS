@@ -1,13 +1,3 @@
-# """ # Your code will
-# take as input a color image im (a np.ndarray with dtype np.uint8 and rank 3)
-#  and two scalars a and b. It must apply a pixel-wise linear transformation
-#  (every pixel p is transformed to a⋅p+b).
-#  The code should produce a new image out with the same shape and dtype.
-
-# # a and b can be either ints or floats. Be careful to: compute the exact result,
-# # round to nearest integer and then clip between 0 and 255.
-#  """
-
 import numpy as np
 import cv2 as cv2
 from skimage import data, io
@@ -20,7 +10,7 @@ im = cv2.imread(
     "2020-03-12 satur arith, color hist, 2D conv/1_Linear stretch/cof.png",
     cv2.IMREAD_COLOR,
 )  # BGR H W 3 (400, 600, 3)
-cv2.imshow("img", im)
+# cv2.imshow("img", im)
 # cv2.waitKey()
 # print(im.shape)
 # print("image dtype ", img.dtype)
@@ -38,8 +28,9 @@ print(im.shape, im.dtype)
 # print("\n")
 # print(img[::-1].swapaxes(2, 0), img[::-1].swapaxes(2, 0).shape)
 
-a = 0.8413645484748298
-b = 19.450344737505617
+a = 1.8572174313946244
+
+b = -34.29745793809741
 
 out_float = im.astype(np.float32)  # np.empty_like(im,dtype=np.float)
 print(out_float.shape, out_float.dtype)
@@ -48,11 +39,13 @@ print(out_float.shape, out_float.dtype)
 for w in range(out_float.shape[1]):
     for h in range(out_float.shape[2]):
         out_float[:, w, h] = a * out_float[:, w, h] + b
+# out_float = out_float * a + b
 
 print("ok")
+out = np.empty_like(im)
 out_float = out_float.round()
 print("ok")
-out = out_float.astype(np.uint8)
+
 np.clip(out_float, 0, 255, out=out)
 print("ok")
 
@@ -61,3 +54,6 @@ cv2.waitKey()
 # plt.imshow(out[::-1].swapaxes(2, 0))  # BGR -> RGB H W 3
 # plt.show()
 
+# out = np.empty_like(im)
+# t=im*a+b
+# np.clip(np.round(t),0,255,out)
