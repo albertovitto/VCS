@@ -1,5 +1,6 @@
 {
   "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
   "python.linting.pycodestyleEnabled": true,
   "python.linting.pylintPath": "pylint",
   "python.linting.pylintArgs": [
