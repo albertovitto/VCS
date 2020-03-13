@@ -36,16 +36,16 @@ out_float = im.astype(np.float32)  # np.empty_like(im,dtype=np.float)
 print(out_float.shape, out_float.dtype)
 # print(out_float[:, 0, 0])
 # print(out_float.shape[1], out_float.shape[2], out_float[0, 0, 0])
-for w in range(out_float.shape[1]):
-    for h in range(out_float.shape[2]):
-        out_float[:, w, h] = a * out_float[:, w, h] + b
+for w in range(out_float.shape[1]):  # rows
+    for h in range(out_float.shape[2]):  # cols
+        out_float[:, w, h] = a * out_float[:, w, h] + b  # r,g,b with broadcast
+
 # out_float = out_float * a + b
 
 print("ok")
 out = np.empty_like(im)
 out_float = out_float.round()
 print("ok")
-
 np.clip(out_float, 0, 255, out=out)
 print("ok")
 
@@ -54,6 +54,7 @@ cv2.waitKey()
 # plt.imshow(out[::-1].swapaxes(2, 0))  # BGR -> RGB H W 3
 # plt.show()
 
+# simpler
 # out = np.empty_like(im)
 # t=im*a+b
 # np.clip(np.round(t),0,255,out)
