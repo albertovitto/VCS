@@ -4,7 +4,7 @@ np.clip()
 
 
 
-all bins of all color planes need to sum up to 1
+all binssss of all color planes need to sum up to 1
 
 I usually use something like: im = np.random.randint(0, 255, [3, 128, 128], dtype=np.uint8)
 L1 normalization consists of just dividing by the array sum
