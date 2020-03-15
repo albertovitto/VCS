@@ -12,6 +12,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
+
+random.seed(1)
 print("input")
 n = random.randint(2, 6)
 iC = random.randint(2, 6)
@@ -20,6 +22,7 @@ W = random.randint(10, 20)
 print("n  ", n, " iC  ", iC, " H  ", H, " W  ", W)
 input = np.random.rand(n, iC, H, W)
 print(input.shape)
+
 print("\nkernel")
 oC = random.randint(2, 6)
 kH = random.randint(2, 6)
@@ -39,4 +42,53 @@ out = np.zeros(
 print("\nout")
 print("n  ", n, " oC  ", oC, " oH  ", oH, " oW  ", oW)
 print(out.shape)
+
+
+def twoD_conv_single_step(input_slice, kernel_weights, bias=0):
+    s = np.multiply(input_slice, kernel_weights)
+    # Z = np.sum(s)
+    Z = s.sum()
+    # Z = Z + bias.astype(float)
+
+    return Z
+
+
+def twoD_conv_forward(input, kernel, output, pad, stride, dilation, bias=0):
+    n, iC, H, W = input.shape
+    oC, _, kH, kW = kernel.shape
+    _, _, oH, oW = output.shape
+    for N in range(n):
+        input_sample = input[N, :, :, :]
+        for OH in range(oH):
+            count = 0
+            for OW in range(oW):
+
+                for OC in range(oC):
+
+                    vertical_start = OH * stride
+                    vertical_end = OH * stride + kH
+                    horizontal_start = OW * stride
+                    horizontal_end = OW * stride + kW
+
+                    input_slice = input_sample[
+                        :, vertical_start:vertical_end, horizontal_start:horizontal_end
+                    ]
+                    print(count, OC, OH, OW)
+                    print(input_slice.shape, kernel[OC, :, :, :].shape)
+                    output[N, OC, OH, OW] = twoD_conv_single_step(
+                        input_slice, kernel[OC, :, :, :], bias=0
+                    )
+                    count = count + 1
+    return output
+
+
+out = twoD_conv_forward(input, kernel, out, pad, stride, dilation, bias=0)
+
+# np.random.seed(1)
+# a_slice_prev = np.random.randn(iC, H, W)
+# W = np.random.randn(iC, kH, kW)
+# b = np.random.randn(1, 1, 1)
+
+# Z = twoD_conv_single_step(a_slice_prev, W, b)
+# print("Z =", Z)
 

@@ -1,15 +1,17 @@
 {
   "editor.formatOnSave": true,
   "editor.wordWrap": "on",
-  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pycodestyleEnabled": false,
+  "python.linting.pylintEnabled": true,
+  "python.linting.pycodestyleArgs": ["--ignore=E501"],
   "python.linting.pylintPath": "pylint",
   "python.linting.pylintArgs": [
     "--load-plugins",
     "pylint_django",
     "--extension-pkg-whitelist=cv2"
   ],
-  "python.linting.pylintEnabled": true,
-  "python.linting.pycodestyleArgs": ["--ignore=E501"],
+
   "python.formatting.provider": "black",
-  "python.pythonPath": "env/bin/python"
+  "python.pythonPath": "env/bin/python",
+  "python.linting.enabled": true
 }
