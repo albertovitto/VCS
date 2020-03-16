@@ -105,8 +105,45 @@ def twoD_conv_forward(input, kernel, output, pad, stride, dilation, bias=0):
     return output
 
 
-out = twoD_conv_forward(input, kernel, out, pad, stride, dilation, bias=0)
+def twoD_conv_forward_faster(input, kernel, output, pad, stride, dilation, bias=0):
+    n, iC, H, W = input.shape
+    oC, _, kH, kW = kernel.shape
+    _, _, oH, oW = output.shape
+    for N in range(n):  # scorro su ogni sample
+        input_sample = input[
+            N, :, :, :
+        ]  # ne prendo 1, da 4d a 3d(canali,altezza, larghezza)
+        for OH in range(oH):
+            # scorro su posizioni di height in array uscita
+            count = 0  # per debug
+            for OW in range(oW):
+                # scorro su posizioni di height in array uscita
+                for OC in range(oC):
+                    # scorro sui canali che avrà sample uscita dopo tutte le convoluzioni su tutti i canali con tutti i kernel
+                    vertical_start = OH * stride
+                    # calcolo dimensioni di maschera che dovrà scorrere sopra ogni matrice 3d con i canali
+                    vertical_end = OH * stride + kH
+                    horizontal_start = OW * stride
+                    horizontal_end = OW * stride + kW
 
+                    # input_slice è pezzo della matrice sample attuale: da essa estraggo tutti i canali (:) e solo un pezzo in altezza e larghezza in base a slicing (estraggo pezzi di matrice rettangolari o quadrate), poi mi sposterò in base allo stride a dx e poi in bassp
+                    input_slice = input_sample[
+                        :, vertical_start:vertical_end, horizontal_start:horizontal_end
+                    ]
+                    print(count, OC, OH, OW)
+                    print(input_slice.shape, kernel[OC, :, :, :].shape)
+                    # vado a riempire l'input in posizione N,OC,OH,OW
+                    # del kernel passo la matrice 3d relativa al kernel attuale OC (numero di kernel in uso)
+                    output[N, OC, OH, OW] = twoD_conv_single_step(
+                        input_slice, kernel[OC, :, :, :], bias=0
+                    )
+                    count = count + 1
+    return output
+
+
+out = twoD_conv_forward(input, kernel, out, pad, stride, dilation, bias=0)
+out2 = twoD_conv_forward_faster(input, kernel, out, pad, stride, dilation, bias=0)
+print(np.array_equal(out, out2))
 # np.random.seed(1)
 # a_slice_prev = np.random.randn(iC, H, W)
 # W = np.random.randn(iC, kH, kW)
