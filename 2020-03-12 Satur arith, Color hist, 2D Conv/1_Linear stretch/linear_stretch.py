@@ -7,7 +7,7 @@ import matplotlib
 # image = data.coffee()
 # io.imsave("cof.png", image)
 im = cv2.imread(
-    "2020-03-12 satur arith, color hist, 2D conv/1_Linear stretch/cof.png",
+    "2020-03-12 Satur arith, Color hist, 2D Conv/1_Linear stretch/cof.png",
     cv2.IMREAD_COLOR,
 )  # BGR H W 3 (400, 600, 3)
 # cv2.imshow("img", im)

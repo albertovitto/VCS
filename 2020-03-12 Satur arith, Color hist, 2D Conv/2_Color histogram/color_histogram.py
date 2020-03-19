@@ -15,7 +15,7 @@ from sklearn import preprocessing
 
 
 im = cv2.imread(
-    "2020-03-12 satur arith, color hist, 2D conv/2_Color histogram/cof.png",
+    "2020-03-12 Satur arith, Color hist, 2D Conv/2_Color histogram/cof.png",
     cv2.IMREAD_COLOR,
 )  # BGR H W 3 (400, 600, 3)
 # print(im.shape)
