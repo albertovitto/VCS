@@ -59,44 +59,20 @@ def twoD_max_pooling(input, kH, kW, pad, stride, dilation):
             horizontal_start = OW * stride
             horizontal_end = OW * stride + kW
 
+            # prendo pezzo di input che comprende la dimensione
+            # data dal kernel; in piu prendo tutti i canali di tutti i sample
             this_input = input[
                 :, :, vertical_start:vertical_end, horizontal_start:horizontal_end
             ]
+            # calcolo quindi su ogni finestra di dimensione kH,kW il valore max
+            # essendo this_input un array 4D (n,iC,kH,kW) a me interessano
+            # le ultime due dimensioni su cui fare il max, queste dimensioni
+            # le seleziono con axis=(-1, -2) cioè prendi ultima (kW) e prendi penulitma (kH); era indifferente scrivere axis=(2,3) cioè prendi assi in posizione 2 e 3 (n,iC,kH,kW) -> (0,1,2,3)
             output[:, :, OH, OW] = np.amax(this_input, axis=(-1, -2))
-    print("ok")
-    # for N in range(n):  # scorro su ogni sample
-    #     input_sample = input[
-    #         N, :, :, :
-    #     ]  # ne prendo 1, da 4d a 3d(canali,altezza, larghezza)
-    #     for OH in range(oH):
-    #         # scorro su posizioni di height in array uscita
-    #         count = 0  # per debug
-    #         for OW in range(oW):
-    #             # scorro su posizioni di height in array uscita
-    #             for OC in range(oC):
-    #                 # scorro sui canali che avrà sample uscita dopo tutte le convoluzioni su tutti i canali con tutti i kernel
-    #                 vertical_start = OH * stride
-    #                 # calcolo dimensioni di maschera che dovrà scorrere sopra ogni matrice 3d con i canali
-    #                 vertical_end = OH * stride + kH
-    #                 horizontal_start = OW * stride
-    #                 horizontal_end = OW * stride + kW
+            # così facendo risparmio due for loop su n e iC e sfrutto il broadcasting di numpy; faccio contemporaneamente tutti i canali di tutte le immagini del punto di output OH,OW
 
-    #                 # input_slice è pezzo della matrice sample attuale: da essa estraggo tutti i canali (:) e solo un pezzo in altezza e larghezza in base a slicing (estraggo pezzi di matrice rettangolari o quadrate), poi mi sposterò in base allo stride a dx e poi in bassp
-    #                 input_slice = input_sample[
-    #                     :, vertical_start:vertical_end, horizontal_start:horizontal_end
-    #                 ]
-    #                 print(count, OC, OH, OW)
-    #                 print(input_slice.shape, kernel[OC, :, :, :].shape)
-    #                 # vado a riempire l'input in posizione N,OC,OH,OW
-    #                 # del kernel passo la matrice 3d relativa al kernel attuale OC (numero di kernel in uso)
-    #                 output[N, OC, OH, OW] = twoD_conv_single_step(
-    #                     input_slice, kernel[OC, :, :, :], bias=0
-    #                 )
-    #                 count = count + 1
     return output
 
-
-# a = block_reduce(input, (kH, kW), np.max)
 
 pad = 0
 dilation = 1
