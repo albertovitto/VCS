@@ -6,6 +6,12 @@
 
 # The code is expected to show the final result using pyplot (e.g. calling the imshow function). When doing this, pay attention to the axis order.
 
+# https://automaticaddison.com/how-the-sobel-operator-works/
+# https://cse442-17f.github.io/Sobel-Laplacian-and-Canny-Edge-Detection-Algorithms/
+# https://www.programcreek.com/python/example/89325/cv2.Sobel
+# https://docs.opencv.org/3.4/d2/d2c/tutorial_sobel_derivatives.html
+
+
 import numpy as np
 import cv2 as cv2
 from skimage import data, io
