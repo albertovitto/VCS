@@ -7,6 +7,8 @@
 # Notice: beware of how the threshold is defined in the formulas of the previous slides. Your output
 # should be compliant with our definition of threshold (first slide).
 
+# https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_thresholding/py_thresholding.html#otsus-binarization
+
 import numpy as np
 import cv2 as cv2
 from skimage import data, io
@@ -53,15 +55,15 @@ plt.imshow(thr_out, cmap="gray")
 # histogram_array = cv2.calcHist(
 #     images=im, channels=[0], mask=None, histSize=[256], ranges=[0, 256]
 # )
+N = 256
 histogram, bin_edges = np.histogram(
-    a=im.ravel(), bins=256, range=[0, 256]
+    a=im.ravel(), bins=N, range=[0, N]
 )  # histogram from 0 to 255 : [0, 0, 1, 2, 35, 60, ...
 fig.add_subplot(rows, columns, 6)
-plt.hist(x=im.ravel(), bins=256, range=[0, 256], density=True, stacked=True)
+plt.hist(x=im.ravel(), bins=N, range=[0, N], density=True, stacked=True)
 
-N = 256
 bins = np.arange(N)  # [0, 1, ...., 255]
-best_threshold = -1  # can go 0 - 255
+best_threshold = -np.inf  # can go 0 - 255
 max_intra_class_variance = -np.inf
 for t in range(N):  # 0 to 255
     w1 = np.sum(histogram[: (t + 1)])  # from 0 included to t+1 excluded
