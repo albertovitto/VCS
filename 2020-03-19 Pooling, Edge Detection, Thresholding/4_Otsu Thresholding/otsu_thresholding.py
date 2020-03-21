@@ -17,7 +17,7 @@ from skimage.transform import resize
 import random
 
 
-im = data.coffee()  # h 400 * w 600 * c 3
+im = data.grass()  # h 400 * w 600 * c 3
 if len(im.shape) == 3:  # converting to gray scale if image is RGB
     im = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY)  # h 400 * w 600
 
@@ -44,14 +44,8 @@ im = np.swapaxes(im, 0, 1)  # h 300 * w 200
 fig.add_subplot(rows, columns, 3)
 plt.imshow(im, cmap="gray")
 
-
-out = np.copy(im)
-out = np.swapaxes(out, 0, 1)
-fig.add_subplot(rows, columns, 4)
-plt.imshow(out, cmap="gray")
-
 thr_value, thr_out = cv2.threshold(im, 127, 255, cv2.THRESH_OTSU)
-print(thr_value)
+print("Real thr: ", thr_value)
 thr_out = np.swapaxes(thr_out, 0, 1)
 fig.add_subplot(rows, columns, 5)
 plt.imshow(thr_out, cmap="gray")
@@ -59,10 +53,32 @@ plt.imshow(thr_out, cmap="gray")
 # histogram_array = cv2.calcHist(
 #     images=im, channels=[0], mask=None, histSize=[256], ranges=[0, 256]
 # )
-histogram, bin_edges = np.histogram(a=im.ravel(), bins=256, range=[0, 256],)
+histogram, bin_edges = np.histogram(
+    a=im.ravel(), bins=256, range=[0, 256]
+)  # histogram from 0 to 255 : [0, 0, 1, 2, 35, 60, ...
 fig.add_subplot(rows, columns, 6)
 plt.hist(x=im.ravel(), bins=256, range=[0, 256], density=True, stacked=True)
-b = 0
 
+N = 256
+bins = np.arange(N)  # [0, 1, ...., 255]
+best_threshold = -1  # can go 0 - 255
+max_intra_class_variance = -np.inf
+for t in range(N):  # 0 to 255
+    w1 = np.sum(histogram[: (t + 1)])  # from 0 included to t+1 excluded
+    w2 = np.sum(histogram[(t + 1) : N])
+    if w1 != 0 and w2 != 0:
+        u1 = np.sum(histogram[: (t + 1)] * bins[: (t + 1)]) / w1  # weighted sum
+        u2 = np.sum(histogram[(t + 1) : N] * bins[(t + 1) : N]) / w2
+        intra_class_variance = w1 * w2 * (u1 - u2) ** 2
+        if intra_class_variance > max_intra_class_variance:
+            max_intra_class_variance = intra_class_variance
+            best_threshold = t
+print("Computed thr: ", best_threshold)
+
+out = np.copy(im)
+out = (out > best_threshold).astype(np.uint8) * 255
+out = np.swapaxes(out, 0, 1)
+fig.add_subplot(rows, columns, 8)
+plt.imshow(out, cmap="gray")
 
 plt.show()
