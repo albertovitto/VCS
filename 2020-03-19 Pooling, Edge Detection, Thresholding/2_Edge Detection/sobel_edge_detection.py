@@ -33,7 +33,9 @@ if len(im.shape) == 3:  # converting to gray scale if image is RGB
 
 im = np.swapaxes(im, 0, 1)  # h 384 * w 303
 
-Gx = cv2.Sobel(im, cv2.CV_32F, 1, 0, ksize=3)  # 3x3 sobel gradient over x 384*303
+Gx = cv2.Sobel(
+    im, cv2.CV_32F, 1, 0, ksize=3
+)  # 3x3 sobel gradient over x (x=1,y=0) 384*303
 Gy = cv2.Sobel(im, cv2.CV_32F, 0, 1, ksize=3)  # sobel gradient over y 384*303
 
 M = np.sqrt(Gx ** 2 + Gy ** 2)  # V magnitude 384*303

@@ -24,7 +24,7 @@ H = random.randint(10, 20)  # height
 W = random.randint(10, 20)  # width
 kH = random.randint(2, 5)  # kernel height
 kW = random.randint(2, 5)  # kernel width
-s = random.randint(1, 2)
+s = random.randint(1, 2)  # stride
 input = np.random.rand(n, iC, H, W)
 print("input")
 print("n  ", n, " iC  ", iC, " H  ", H, " W  ", W)
