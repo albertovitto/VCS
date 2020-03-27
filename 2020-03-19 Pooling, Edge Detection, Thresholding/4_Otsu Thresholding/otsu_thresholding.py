@@ -13,7 +13,6 @@ import numpy as np
 import cv2 as cv2
 from skimage import data, io
 import matplotlib.pyplot as plt
-import matplotlib
 from sklearn import preprocessing
 from skimage.transform import resize
 import random
