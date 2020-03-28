@@ -5,12 +5,12 @@ from skimage import data
 import matplotlib.pyplot as plt
 from matplotlib import interactive
 
-https://towardsdatascience.com/image-stitching-using-opencv-817779c86a83
-https://www.learnopencv.com/homography-examples-using-opencv-python-c/
-https://www.programcreek.com/python/example/89367/cv2.findHomography
-https://www.programcreek.com/python/example/89422/cv2.warpPerspective
-https://github.com/spmallick/learnopencv/blob/master/Homography/homography.py
-https://pylessons.com/OpenCV-image-stiching-continue/
+# https://towardsdatascience.com/image-stitching-using-opencv-817779c86a83
+# https://www.learnopencv.com/homography-examples-using-opencv-python-c/
+# https://www.programcreek.com/python/example/89367/cv2.findHomography
+# https://www.programcreek.com/python/example/89422/cv2.warpPerspective
+# https://github.com/spmallick/learnopencv/blob/master/Homography/homography.py
+# https://pylessons.com/OpenCV-image-stiching-continue/
 
 
 fig = plt.figure(figsize=(30, 30))
@@ -89,18 +89,21 @@ dst = np.asarray(
     dtype=np.float32,
 )  # im a
 
-# Calculate Homography
+# Calculate Homography with ransac
 homograhyMatrix, _ = cv2.findHomography(src, dst, cv2.RANSAC)
 # # homograhyMatrix array([[ 4.05800050e+00,  1.56885289e-01, -1.42913399e+02],
 #        [ 1.33026187e+00,  3.43173341e+00, -2.85531885e+02],
 #        [ 8.41743350e-03,  1.02772688e-03,  1.00000000e+00]])
-
+# warp im_b based on homography matrix, size is approx ~ same width, double height
 out = cv2.warpPerspective(
     im_b, homograhyMatrix, (w1, h1 + h2), flags=cv2.INTER_LINEAR
 )  # (573, 509, 3)
-out[0:h1, 0:w1] = im_a
-
 fig.add_subplot(rows, columns, 3)
-plt.title("Images stitched")
+plt.title("Image wrapped")
+plt.imshow(out)
+out[0:h1, 0:w1] = im_a  # fill with the other image
+
+fig.add_subplot(rows, columns, 4)
+plt.title("Images stitched together")
 plt.imshow(out)
 plt.show()
