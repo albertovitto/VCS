@@ -25,7 +25,7 @@ print("template ", template.shape)
 
 oH = iH - (kH - 1)
 oW = iW - (kW - 1)
-out = np.random.rand(n, oH, oW).astype(np.float32)  # (3, 15, 10)
+out = np.zeros(shape=(n, oH, oW)).astype(np.float32)  # (3, 15, 10)
 print("out ", out.shape)
 
 template = np.expand_dims(

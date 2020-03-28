@@ -1,18 +1,18 @@
 import numpy as np
 import cv2
-from skimage import data
+from skimage import data, feature
 import matplotlib.pyplot as plt
 
 # https://www.pyimagesearch.com/2014/07/21/detecting-circles-images-using-opencv-hough-circles/
-https://www.learnopencv.com/hough-transform-with-opencv-c-python/
-https://www.pyimagesearch.com/2014/07/21/detecting-circles-images-using-opencv-hough-circles/
-https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
+# https://www.learnopencv.com/hough-transform-with-opencv-c-python/
+# https://www.pyimagesearch.com/2014/07/21/detecting-circles-images-using-opencv-hough-circles/
+# https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
 
 fig = plt.figure(figsize=(30, 30))
 rows = 2  # grid 2x2
 columns = 2
 
-im = data.coins()  # [160:230, 70:270]  # (70, 200)
+im = data.coins()[160:230, 70:270]  # (70, 200)
 if len(im.shape) == 3:  # converting to gray scale if image is RGB
     im = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY)
 h, w = im.shape
@@ -22,7 +22,12 @@ plt.imshow(im)  # cmap="gray"
 
 edges = cv2.Canny(im, 230, 300)
 fig.add_subplot(rows, columns, 2)
-plt.title("Edges with Canny")
+plt.title("Edges with Canny (cv2)")
+plt.imshow(edges, cmap="gray")
+
+edges_s = feature.canny(image=im, sigma=3, low_threshold=10, high_threshold=80)
+fig.add_subplot(rows, columns, 4)
+plt.title("Edges with Canny (scikit)")
 plt.imshow(edges, cmap="gray")
 
 # Apply hough transform on the image
