@@ -1,3 +1,12 @@
+# Your code will take as input a greyscale image im, (np.ndarray with dtype np.uint8 and shape (H, W)).
+
+# You then need to:
+
+#     Apply an edge detector.
+#     Apply the Hough transform for circles, using the corresponding OpenCV function.
+
+# The code is expected to show the final result using pyplot (e.g. calling the imshow function).
+
 import numpy as np
 import cv2
 from skimage import data, feature
@@ -46,11 +55,11 @@ circles = cv2.HoughCircles(
 if circles is not None:
     circles = np.uint16(
         np.around(circles)
-    )  ## convert the (x, y) coordinates and radius of the circles to integers
+    )  ## convert the (x, y) coordinates and radius r of the circles to integers
     for (x, y, r) in circles[0, :]:
-        # Draw outer circle
+        # Draw outer circle in yellow
         cv2.circle(img=im, center=(x, y), radius=r, color=(255, 255, 0), thickness=2)
-        # Draw inner circle
+        # Draw inner circle in black
         cv2.circle(img=im, center=(x, y), radius=1, color=(0, 0, 0), thickness=2)
 
 fig.add_subplot(rows, columns, 3)

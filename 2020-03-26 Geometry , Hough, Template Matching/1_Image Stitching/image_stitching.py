@@ -1,3 +1,16 @@
+# Your code will take as input two color images im_a and im_b (np.ndarray with dtype np.uint8 and shape (3, H, W)), depicting the same scene from two different perspectives.
+
+# You then need to:
+
+#     Manually identify (at least) four corresponding pairs of points
+#     Estimate the homography between the first and the second image using the detected point pairs.
+#     Warp the second image using the estimated transformation matrix.
+#     "Merge" the two images in a single one by sticking one on top of the other.
+
+# The code is expected to show the final result using pyplot (e.g. calling the imshow function). When doing this, pay attention to the axis order (their format is (H, W, 3)).
+
+# If you employ OpenCV functions, recall that the OpenCV format is also (H, W, 3).
+
 from io import BytesIO
 import numpy as np
 import cv2
@@ -30,12 +43,10 @@ bytes = np.asarray(bytearray(file.read()), dtype=np.uint8)  # (27707,)
 im_a = cv2.imdecode(bytes, cv2.IMREAD_COLOR)  # (287, 509, 3) BGR
 im_a = np.swapaxes(
     np.swapaxes(im_a, 0, 2), 1, 2
-)  # (287, 509, 3) -> (3, 287, 509) -> (3, 287, 509) BGR
-im_a = im_a[::-1, :, :]  # from BGR to RGB
+)  # (287, 509, 3) -> (3, 287, 509) -> (3, 287, 509) 3,H,W BGR
+im_a = im_a[::-1, :, :]  #  3,H,W from BGR to RGB
 _, h1, w1 = im_a.shape
-im_a = np.swapaxes(
-    np.swapaxes(im_a, 0, 2), 1, 0
-)  # (3,homograhyMatrix,W)->(W,homograhyMatrix,3)->(homograhyMatrix,W,3)
+im_a = np.swapaxes(np.swapaxes(im_a, 0, 2), 1, 0)  # (3,H,W)->(W,H,3)->(H,W,3)
 
 fig.add_subplot(rows, columns, 1)
 plt.title("Image to stitch with the wrapped one")
@@ -52,9 +63,7 @@ im_b = cv2.imdecode(bytes, cv2.IMREAD_COLOR)  # (286, 509, 3) BGR
 im_b = np.swapaxes(np.swapaxes(im_b, 0, 2), 1, 2)  # (3, 286, 509) BGR
 im_b = im_b[::-1, :, :]  # from BGR to RGB
 c, h2, w2 = im_b.shape
-im_b = np.swapaxes(
-    np.swapaxes(im_b, 0, 2), 1, 0
-)  # (3,homograhyMatrix,W)->(W,homograhyMatrix,3)->(homograhyMatrix,W,3)
+im_b = np.swapaxes(np.swapaxes(im_b, 0, 2), 1, 0)  # (3,H,W)->(W,H,3)->(H,W,3)
 
 fig.add_subplot(rows, columns, 2)
 plt.title("Image to wrap")
