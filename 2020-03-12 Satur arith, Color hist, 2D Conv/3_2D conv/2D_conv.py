@@ -79,7 +79,7 @@ def twoD_conv_forward(input, kernel, output, pad, stride, dilation, bias=0):
     for N in range(n):  # scorro su ogni sample
         input_sample = input[
             N, :, :, :
-        ]  # ne prendo 1, da 4d a 3d(canali,altezza, larghezza)
+        ]  # (3, 6, 11, 14) -> (6, 11, 14) ne prendo 1, da 4d a 3d(canali,altezza, larghezza)
         for OH in range(oH):
             # scorro su posizioni di height in array uscita
             count = 0  # per debug
@@ -142,7 +142,9 @@ def twoD_conv_forward_faster(input, kernel, output, pad, stride, dilation, bias=
             # np.sum(.., axis=(-1, -2, -3))
             # ==> (n, oC)
 
-            output[:, :, OH, OW] = np.sum(this_input * this_kernel, axis=(-1, -2, -3))
+            output[:, :, OH, OW] = np.sum(
+                this_input * this_kernel, axis=(-1, -2, -3)
+            )  # (n, oC, iC, kH, kW) -> (n,oC)
             # out[:, :, row, col] ==> (n, oC)
     return output
 
@@ -157,4 +159,3 @@ print(np.array_equal(out1, out2))
 
 # Z = twoD_conv_single_step(a_slice_prev, W, b)
 # print("Z =", Z)
-

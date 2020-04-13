@@ -16,7 +16,7 @@ learning_rate = 1e-6
 EPOCHS = 500
 
 for e in range(EPOCHS):
-    y_pred = x.mm(w1).clamp(min=0).mm(w2)
+    y_pred = x.mm(w1).clamp(min=0).mm(w2)  # clamp(min=0) is exactly ReLU
     loss = (y_pred - y).pow(2).sum()
 
     loss.backward()

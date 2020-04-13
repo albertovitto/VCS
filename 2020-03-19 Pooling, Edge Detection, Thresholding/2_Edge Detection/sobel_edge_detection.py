@@ -31,7 +31,7 @@ plt.imshow(im)
 if len(im.shape) == 3:  # converting to gray scale if image is RGB
     im = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY)
 
-im = np.swapaxes(im, 0, 1)  # h 384 * w 303
+im = np.swapaxes(im, 0, 1)  # w 384 * h 303
 
 Gx = cv2.Sobel(
     im, cv2.CV_32F, 1, 0, ksize=3

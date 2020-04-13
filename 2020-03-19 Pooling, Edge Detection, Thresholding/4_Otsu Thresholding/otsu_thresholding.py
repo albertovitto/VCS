@@ -17,7 +17,7 @@ from sklearn import preprocessing
 from skimage.transform import resize
 import random
 
-
+# try page()
 im = data.grass()  # h 400 * w 600 * c 3
 if len(im.shape) == 3:  # converting to gray scale if image is RGB
     im = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY)  # h 400 * w 600

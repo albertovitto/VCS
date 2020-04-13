@@ -52,7 +52,7 @@ out = np.copy(im)
 out = (out > val).astype(np.uint8) * 255
 # (out > val) -> matrix of true and false with size of out
 # .astype(np.uint8) convert true to 1, false to 0
-# * 255 convert 1 to 255, 0 to 0 so it's well drawable
+# * 255 convert 1 to 255, 0 to 0 so it's drawable
 out = np.swapaxes(out, 0, 1)
 fig.add_subplot(rows, columns, 4)
 plt.imshow(out, cmap="gray")
