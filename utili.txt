@@ -11,6 +11,7 @@ alberto@alberto-VirtualBox:~/Desktop/VCS$ source /home/alberto/Desktop/VCS/env/b
 exit O CTRL D to exit terminal
 pip install -r requirements.txt
 pip freeze > requirements.txt dopo aver aggiornato/aggiunto pacchetti a env
+#https://pip.pypa.io/en/stable/reference/pip_uninstall/
 
 ////////////////////
 problemi in ipynb
