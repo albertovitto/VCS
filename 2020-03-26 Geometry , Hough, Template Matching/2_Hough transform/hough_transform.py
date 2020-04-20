@@ -25,9 +25,9 @@ im = data.coins()[160:230, 70:270]  # (70, 200)
 if len(im.shape) == 3:  # converting to gray scale if image is RGB
     im = cv2.cvtColor(im, cv2.COLOR_RGB2GRAY)
 h, w = im.shape
-fig.add_subplot(rows, columns, 1)
-plt.title("Original gray")
-plt.imshow(im)  # cmap="gray"
+fig.add_subplot(rows, columns, 1), plt.title("Original gray"), plt.imshow(
+    im
+)  # cmap="gray"
 
 edges = cv2.Canny(im, 230, 300)
 fig.add_subplot(rows, columns, 2)
