@@ -12,6 +12,6 @@
   ],
 
   "python.formatting.provider": "black",
-  "python.pythonPath": "env/bin/python",
+  "python.pythonPath": "env/bin/python3",
   "python.linting.enabled": true
 }
