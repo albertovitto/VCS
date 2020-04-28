@@ -138,3 +138,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+Project-Test/WebScraping/dataset/data.json
+Project-Test/WebScraping/dataset/brief.json
+Project-Test/WebScraping/dataset/sift_50.json
+Project-Test/WebScraping/dataset/sift_150.json
+Project-Test/WebScraping/dataset/sift_500.json
