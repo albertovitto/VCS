@@ -83,9 +83,8 @@ for n in range(N):  # for each sample in the batch
             print(boxes[n])
             for j in range(oW):  # for each col position in the final tensor
                 print(boxes[n][l])
-                (y1, x1, y2, x2) = boxes[n][
-                    l
-                ]  # get for that sample the five bounding box assigned (l=0 -> 4)
+                (y1, x1, y2, x2) = boxes[n][l]
+                # get for that sample the five bounding box assigned (l=0 -> 4)
                 (y1, x1, y2, x2) = torch.round(
                     boxes[n][l]
                 )  # round to nearest int those values

@@ -27,62 +27,62 @@
 # Unless otherwise specified, convolutional layers must have 3×3
 # kernels, stride 1, padding 1 and no bias.
 # Documentation of nn.Module
-# https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py
-# https://medium.com/@erikgaas/resnet-torchvision-bottlenecks-and-layers-not-as-they-seem-145620f93096
-# https://medium.com/@14prakash/understanding-and-implementing-architectures-of-resnet-and-resnext-for-state-of-the-art-image-cf51669e1624
-# https://github.com/yunjey/pytorch-tutorial/blob/57afe85b2c7e6bb92918a73b9a9b6a3394c92951/tutorials/02-intermediate/deep_residual_network/main.py#L54
-# https://towardsdatascience.com/residual-network-implementing-resnet-a7da63c7b278
+
 import numpy as np
 import torch
 import torch.nn as nn
+import random
 
 np.random.seed(0)
 torch.manual_seed(0)
 
 
 class ResidualBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, stride=1):
+    def __init__(self, inplanes, planes, stride=1):
         super(ResidualBlock, self).__init__()
+        self.stride, self.inplanes, self.planes = stride, inplanes, planes
         self.conv1 = nn.Conv2d(
-            in_channels,
-            out_channels,
-            kernel_size=3,
-            stride=stride,
-            padding=0,
-            bias=False,
+            inplanes, planes, kernel_size=3, stride=stride, padding=0, bias=False
         )
-        self.bn1 = nn.BatchNorm2d(out_channels)
+        self.bn1 = nn.BatchNorm2d(planes)
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = nn.Conv2d(
-            in_channels,
-            out_channels,
-            kernel_size=3,
-            stride=stride,
-            padding=0,
-            bias=False,
+            planes, planes, kernel_size=3, stride=1, padding=0, bias=False
         )
-        self.bn2 = nn.BatchNorm2d(out_channels)
-        # self.downsample = downsample
+        self.bn2 = nn.BatchNorm2d(planes)
 
     def forward(self, x):
         residual = x
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.relu(out)
-        out = self.conv2(out)
-        out = self.bn2(out)
-        if (stride != 1) or (in_channels != out_channels):
+        y = self.conv1(x)
+        y = self.bn1(y)
+        y = self.relu(y)
+        y = self.conv2(y)
+        y = self.bn2(y)
+        if (self.stride > 1) or (self.inplanes != self.planes):
             residual = nn.Sequential(
                 nn.Conv2d(
-                    in_channels,
-                    out_channels,
+                    self.inplanes,
+                    self.planes,
                     kernel_size=1,
-                    stride=stride,
+                    stride=self.stride,
                     padding=0,
                     bias=False,
                 ),
-                nn.BatchNorm2d(out_channels),
+                nn.BatchNorm2d(self.planes),
             )
-        out += residual
-        out = self.relu(out)
-        return out
+        y += residual
+        y = self.relu(y)
+        return y
+
+
+n = random.randint(2, 6)
+iC = random.randint(2, 6)
+H = random.randint(10, 20)
+W = random.randint(10, 20)
+print("n  ", n, " iC  ", iC, " H  ", H, " W  ", W)
+input = torch.rand(n, iC, H, W)
+oC = random.randint(2, 6)
+print("oC  ", oC)
+r = ResidualBlock(inplanes=(iC), planes=(oC), stride=1)
+r.forward(input)
+a = 0
