@@ -4,10 +4,12 @@
 *.mp4
 *.MP4
 *.MOV
+*.mov
 *.flv
 *.FLV
 *.jpg
 *.JPG
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -143,3 +145,6 @@ Project-Test/WebScraping/dataset/brief.json
 Project-Test/WebScraping/dataset/sift_50.json
 Project-Test/WebScraping/dataset/sift_150.json
 Project-Test/WebScraping/dataset/sift_500.json
+Projects/
+Project-Test/
+2020-04-30-YOLO/

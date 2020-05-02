@@ -10,7 +10,6 @@
     "pylint_django",
     "--extension-pkg-whitelist=cv2"
   ],
-
   "python.formatting.provider": "black",
   "python.pythonPath": "env/bin/python3",
   "python.linting.enabled": true

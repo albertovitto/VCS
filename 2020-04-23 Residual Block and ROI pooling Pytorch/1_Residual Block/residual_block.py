@@ -50,6 +50,12 @@ class ResidualBlock(nn.Module):
             planes, planes, kernel_size=3, stride=1, padding=0, bias=False
         )
         self.bn2 = nn.BatchNorm2d(planes)
+        self.G = nn.Sequential(
+            nn.Conv2d(
+                inplanes, planes, kernel_size=1, stride=stride, padding=0, bias=False,
+            ),
+            nn.BatchNorm2d(planes),
+        )
 
     def forward(self, x):
         residual = x
@@ -59,17 +65,7 @@ class ResidualBlock(nn.Module):
         y = self.conv2(y)
         y = self.bn2(y)
         if (self.stride > 1) or (self.inplanes != self.planes):
-            residual = nn.Sequential(
-                nn.Conv2d(
-                    self.inplanes,
-                    self.planes,
-                    kernel_size=1,
-                    stride=self.stride,
-                    padding=0,
-                    bias=False,
-                ),
-                nn.BatchNorm2d(self.planes),
-            )
+            residual = self.G
         y += residual
         y = self.relu(y)
         return y
