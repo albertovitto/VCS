@@ -11,6 +11,6 @@
     "--extension-pkg-whitelist=cv2"
   ],
   "python.formatting.provider": "black",
-  "python.pythonPath": "env/bin/python3",
+  "python.pythonPath": "env/bin/python",
   "python.linting.enabled": true
 }
