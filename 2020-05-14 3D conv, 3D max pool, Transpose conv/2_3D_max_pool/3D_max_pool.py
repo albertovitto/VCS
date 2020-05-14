@@ -32,6 +32,7 @@ input = torch.rand(n, iC, T, H, W)
 print("in   n:{}  iC:{}   T:{}    H:{}    W:{}".format(n, iC, T, H, W))
 print("ke                kT:{}   kH:{}   kW:{}".format(kT, kH, kW))
 print("st   s :{}".format(stride))
+
 oT = np.int(np.floor(1 + (T - kT) / stride))
 oH = np.int(np.floor(1 + (H - kH) / stride))
 oW = np.int(np.floor(1 + (W - kW) / stride))
