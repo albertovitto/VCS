@@ -86,5 +86,7 @@ m = nn.Conv3d(
     padding=pad,
     dilation=dilation,
 )
+# print(m.bias.shape)
+# m.bias = torch.nn.Parameter(bias)
 # out_pytorch = m(input)
 # print(torch.all(out.eq(out_pytorch)))

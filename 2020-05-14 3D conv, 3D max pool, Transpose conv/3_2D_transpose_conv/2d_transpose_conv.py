@@ -26,9 +26,11 @@ kernel = torch.rand(iC, oC, kH, kW)
 print("in   n:{}   iC:{}   H:{}    W:{}".format(n, iC, H, W))
 print("ke   iC:{}  oC:{}  kH:{}   kW:{}".format(iC, oC, kH, kW))
 
+
 pad = 0
 stride = random.randint(2, 6)
 dilation = 1
+print("st     :{}".format(stride))
 
 oH = np.int((H - 1) * stride - 2 * pad + dilation * (kH - 1) + 1)
 oW = np.int((W - 1) * stride - 2 * pad + dilation * (kW - 1) + 1)
@@ -36,3 +38,13 @@ oW = np.int((W - 1) * stride - 2 * pad + dilation * (kW - 1) + 1)
 out = torch.zeros(n, oC, oH, oW)
 print("ou   n:{}  oC:{}   oH:{}   oW:{}".format(n, oC, oH, oW))
 out = out.to(torch.float32)
+
+for h in range(H):
+    for w in range(W):
+        for oc in range(oC):
+            a = out[:, oc, h : h + stride, w : w + stride]
+            b = input[:, :, h, w]
+            c = kernel[:, oc, :, :]
+            out[:, :, h : h + stride, w : w + stride] += (
+                input[:, :, h, w] * kernel[:, oc, :, :]
+            )
