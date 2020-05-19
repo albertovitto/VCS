@@ -49,10 +49,10 @@ start = time.time()
 for n_ in range(n):  # for each input sample
     for h in range(H):
         for w in range(W):  # for each pixel identified by h,w
-            for oc in range(oC):  # for each output channel = kernel I have
+            for oc in range(oC):  # for each output channel = # kernel I have
                 input_slice = input[n_, :, h, w]
                 # ([2, 3, 13, 20]) -> ([3])
-                # from the input I take a sampe, a pixel (h,w) and all his channels (:)
+                # from the input I take a sample, a pixel (h,w) and all his channels (:)
                 input_slice.unsqueeze_(dim=1).unsqueeze_(dim=2)
                 # ([3]) -> ([3, 1]) -> ([3, 1, 1])
                 # then I unsqueeze it to make it fit with kernel
@@ -60,9 +60,10 @@ for n_ in range(n):  # for each input sample
                 # ([3, 6, 3, 3]) -> ([3, 3, 3])
                 # I take all the channels and dimensions of one kernel
                 product = torch.sum(input=(input_slice * kernel_), dim=(0))
-                # ([3, 1, 1]) * ([3, 3, 3]) ->
-                #               ([3, 3, 3]) ->
-                #               ([   3, 3])
+                # ([3, 1, 1]) *
+                # ([3, 3, 3]) ->
+                # ([3, 3, 3]) ->
+                # ([   3, 3])
                 # then I multiply a matrix 3x3 with a cube 3x3x3 (each level of the cube is element-wise multiplied), then I compress the first axis, the one of the channels, by sum over it
                 out[
                     n_, oc, h * stride : h * stride + kH, w * stride : w * stride + kW
@@ -79,7 +80,7 @@ for h in range(H):
         for oc in range(oC):  # for each output channel = kernel I have
             input_slice = input[:, :, h, w]
             # ([2, 3, 13, 20]) -> ([2,3])
-            # from the input I take a sampe, a pixel (h,w) and all his channels (:)
+            # from the input I take all samples, a pixel (h,w) and all his channels (:)
             input_slice.unsqueeze_(dim=2).unsqueeze_(dim=3)
             # ([2,3]) -> ([2,3,1]) -> ([2,3,1,1])
             # then I unsqueeze it to make it fit with kernel
@@ -88,13 +89,13 @@ for h in range(H):
             kernel_.unsqueeze_(dim=0)
             # ([3, 3, 3]) -> ([1, 3, 3, 3])
             # so now they are broadcastable
-            # I take all the channels and dimensions of one kernel
+            # I take all the channels and dimensions of one kernel oc
             product = torch.sum(input=(input_slice * kernel_), dim=(1))
             # ([2, 3, 1, 1]) *
             # ([1, 3, 3, 3]) ->
             # ([2, 3, 3, 3]) -> sum over channels axis dim=1
             # ([2,    3, 3])
-            # then I multiply a matrix 3x3 with a cube 3x3x3 (each level of the cube is element-wise multiplied), then I compress the first axis so the one of the channels by sum it
+            # then I compress the first axis so the one of the channels by sum it
             out[
                 :, oc, h * stride : h * stride + kH, w * stride : w * stride + kW
             ] += product
@@ -109,20 +110,18 @@ for h in range(H):
     for w in range(W):  # for each pixel identified by h,w
         input_slice = input[:, :, h, w]
         # ([2, 3, 13, 20]) -> ([2,3])
-        # from the input I take a sampe, a pixel (h,w) and all his channels (:)
+        # from the input I take all samples, a pixel (h,w) and all his channels (:)
         input_slice.unsqueeze_(dim=2).unsqueeze_(dim=3).unsqueeze_(dim=4)
         # ([2,3]) -> ([2,3,1]) -> ([2,3,1,1]) -> ([2,3,1,1,1])
-        # then I unsqueeze it to make it fit with kernel
         kernel_ = kernel.unsqueeze(dim=0)
         # ([3, 6, 3, 3]) -> ([1, 3, 6, 3, 3])
         # so now they are broadcastable
-        # I take all the channels and dimensions of one kernel
         product = torch.sum(input=(input_slice * kernel_), dim=(1))
         # ([2, 3, 1, 1, 1]) *
         # ([1, 3, 6, 3, 3]) ->
         # ([2, 3, 6, 3, 3]) -> sum over channels axis dim=1
         # ([2,  , 6, 3, 3])
-        # then I multiply a matrix 3x3 with a cube 3x3x3 (each level of the cube is element-wise multiplied), then I compress the first axis so the one of the channels by sum it
+        # then I compress the first axis so the one of the channels by sum it
         out[:, :, h * stride : h * stride + kH, w * stride : w * stride + kW] += product
         # out[...] is ([2, 6, 3, 3]) portion, insert that piece in final output with right stride, if cell was already I add the new value and sum all together
 end = time.time()
