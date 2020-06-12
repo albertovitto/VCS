@@ -34,7 +34,8 @@ print(
 
 boxes = [
     torch.zeros(L, 4) for _ in range(N)  # fill a list of tensor
-]  # L:5 coordinates:4 n:2                                                  for each input (n=2) I have 5 regions/rectangles with 4 coordinates that #define bounding box on one of the input
+]  # L:5 coordinates:4 n:2
+# for each input (n=2) I have 5 regions/rectangles with 4 coordinates that #define bounding box on one of the input
 print("boxes L:{} coordinates:4 N:{}".format(L, N))
 print("boxes ", boxes[0].shape)
 for i in range(N):  # coordinates are random but valid! so stay in the sample
@@ -80,15 +81,15 @@ def get_indexes(i, j, y1, x1, y2, x2, oH, oW):
 for n in range(N):  # for each sample in the batch
     for l in range(L):  # for each bounding box of that sample
         for i in range(oH):  # for each row position in the final tensor
-            print(boxes[n])
+            # print(boxes[n])
             for j in range(oW):  # for each col position in the final tensor
-                print(boxes[n][l])
+                # print(boxes[n][l])
                 (y1, x1, y2, x2) = boxes[n][l]
                 # get for that sample the five bounding box assigned (l=0 -> 4)
                 (y1, x1, y2, x2) = torch.round(
                     boxes[n][l]
                 )  # round to nearest int those values
-                print(torch.round(boxes[n][l]))
+                # print(torch.round(boxes[n][l]))
                 (y_start, y_end, x_start, x_end) = get_indexes(
                     i, j, y1, x1, y2, x2, oH, oW,
                 )  # (i,j) define the number and the position of the 4x3 grid
@@ -110,7 +111,7 @@ for n in range(N):  # for each sample in the batch
 out_pytorch = roi_pool(input, boxes, (oH, oW), spatial_scale=1.0)
 out_pytorch = out_pytorch.reshape((N, L, C, oH, oW))
 # Computes element-wise equality
-print(torch.eq(out, out_pytorch, out=None))  # not equal
+# print(torch.eq(out, out_pytorch, out=None))  # not equal
 
 
 # slice = input.numpy()[:, :, 3:6, 0:4] convert to numpy
