@@ -82,4 +82,7 @@ out = np.swapaxes(out, 0, 1)
 fig.add_subplot(rows, columns, 8)
 plt.imshow(out, cmap="gray")
 
+fig.add_subplot(rows, columns, 9)
+plt.hist(x=out.ravel(), bins=N, range=[0, N], density=True, stacked=True)
+
 plt.show()
